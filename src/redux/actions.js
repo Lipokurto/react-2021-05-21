@@ -5,6 +5,7 @@ import {
   REMOVE,
   ADD_REVIEW,
   LOAD_RESTAURANTS,
+  LOAD_PRODUCTS,
   LOAD_REVIEWS,
   REQUEST,
   SUCCESS,
@@ -20,6 +21,11 @@ export const addReview = (review, restaurantId) => ({
   review,
   restaurantId,
   generateId: ['reviewId', 'userId'],
+});
+
+export const loadProducts = () => ({
+  type: LOAD_PRODUCTS,
+  apiCall: () => api.loadProducts(),
 });
 
 export const loadRestaurants = () => ({

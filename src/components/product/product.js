@@ -4,14 +4,32 @@ import PropTypes from 'prop-types';
 import styles from './product.module.css';
 
 import Button from '../button';
-import { amountSelector, productSelector } from '../../redux/selectors';
-
+import {
+  amountSelector,
+  productSelector,
+  productsLoadingSelector,
+  productsLoadedSelector,
+} from '../../redux/selectors';
+import { loadProducts } from '../../redux/actions';
 import { decrement, increment } from '../../redux/actions';
+import Loader from '../loader';
 
-const Product = ({ product, amount, increment, decrement, fetchData }) => {
+const Product = ({
+  product,
+  amount,
+  increment,
+  decrement,
+  loading,
+  loaded,
+  loadProducts,
+}) => {
   useEffect(() => {
-    fetchData && fetchData(product.id);
-  }, []); // eslint-disable-line
+    if (!loading && !loaded) {
+      loadProducts();
+    }
+  }, [loading, loaded]); // eslint-disable-line
+
+  if (loading || !loaded) return <Loader />;
 
   return (
     <div className={styles.product} data-id="product">
@@ -53,9 +71,12 @@ Product.propTypes = {
 const mapStateToProps = (state, props) => ({
   amount: amountSelector(state, props),
   product: productSelector(state, props),
+  loading: productsLoadingSelector(state),
+  loaded: productsLoadedSelector(state),
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
+  loadProducts: () => dispatch(loadProducts(props.id)),
   increment: () => dispatch(increment(props.id)),
   decrement: () => dispatch(decrement(props.id)),
 });

@@ -9,13 +9,16 @@ import {
   restaurantsLoadingSelector,
   restaurantsLoadedSelector,
 } from '../../redux/selectors';
-import { loadRestaurants } from '../../redux/actions';
+import { loadProducts, loadRestaurants } from '../../redux/actions';
 
 const Restaurants = ({ restaurants, loading, loaded, loadRestaurants }) => {
   const [activeId, setActiveId] = useState(restaurants[0]?.id);
 
   useEffect(() => {
-    if (!loading && !loaded) loadRestaurants();
+    if (!loading && !loaded) {
+      loadRestaurants();
+      loadProducts();
+    }
   }, [loading, loaded]); // eslint-disable-line
 
   const restaurantId = activeId || restaurants[0]?.id;
@@ -46,4 +49,6 @@ const mapStateToProps = (state) => ({
   loaded: restaurantsLoadedSelector(state),
 });
 
-export default connect(mapStateToProps, { loadRestaurants })(Restaurants);
+export default connect(mapStateToProps, { loadRestaurants, loadProducts })(
+  Restaurants
+);

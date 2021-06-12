@@ -9,6 +9,7 @@ export default (store) => (next) => async (action) => {
 
   try {
     const data = await apiCall();
+    console.log(data);
     next({ ...rest, type: type + SUCCESS, data });
   } catch (error) {
     next({ ...rest, type: type + FAILURE, error });
