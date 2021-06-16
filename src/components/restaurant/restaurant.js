@@ -23,9 +23,9 @@ const Restaurant = ({ restaurant, averageRating }) => {
         {!!averageRating && <Rate value={averageRating} />}
       </Banner>
       <div className={styles.tabs}>
-        {tabs.map(({ tab, title }) => (
+        {tabs.map(({ tab, title }, index) => (
           <NavLink
-            key={tab}
+            key={index}
             to={`/restaurants/${id}/${title}`}
             className={styles.tab}
             activeClassName={styles.active}
